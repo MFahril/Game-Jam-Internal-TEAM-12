@@ -10,6 +10,9 @@ public class EnemySpawner : MonoBehaviour
     public float enemyMoveSpeed = 3f; // Field untuk mengatur kecepatan musuh
     private int currentWave = 1;
     private int enemiesPerWave = 1;
+    private float speedIncreaseInterval = 30f; // Interval 30 detik
+    private float maxSpeed = 5f; // Kecepatan maksimum
+    private float nextSpeedIncreaseTime = 30f; // Waktu saat kecepatan bertambah
 
     void Start()
     {
@@ -22,6 +25,7 @@ public class EnemySpawner : MonoBehaviour
         {
             int enemiesAlive = FindObjectsOfType<EnemyData>().Length; // Menghitung musuh yang ada
 
+            // Spawn musuh jika jumlah musuh kurang dari jumlah yang ditentukan untuk wave
             if (enemiesAlive < enemiesPerWave)
             {
                 int spawnIndex = Random.Range(0, spawnPoints.Length);
@@ -35,8 +39,17 @@ public class EnemySpawner : MonoBehaviour
                 enemiesAlive++;
             }
 
-            int elapsedTime = Mathf.FloorToInt(timerUI.ElapsedTime);
-            if (elapsedTime >= currentWave * 20)
+            // Periksa apakah sudah waktunya untuk menambah kecepatan
+            float elapsedTime = timerUI.ElapsedTime;
+            if (elapsedTime >= nextSpeedIncreaseTime && enemyMoveSpeed < maxSpeed)
+            {
+                enemyMoveSpeed += 1f; // Tambah kecepatan 1
+                nextSpeedIncreaseTime += speedIncreaseInterval; // Set waktu berikutnya
+                enemyMoveSpeed = Mathf.Clamp(enemyMoveSpeed, 0, maxSpeed); // Jangan melebihi kecepatan maksimum
+            }
+
+            // Periksa apakah waktu sudah mencapai gelombang baru
+            if (elapsedTime >= currentWave * 10)
             {
                 currentWave++;
                 enemiesPerWave = currentWave;
