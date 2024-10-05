@@ -5,14 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Map
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Map
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 
