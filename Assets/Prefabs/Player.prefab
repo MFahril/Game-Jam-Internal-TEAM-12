@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6560216503248728050}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4480850842115272286}
   - component: {fileID: 860294808827688449}
   - component: {fileID: 8888826779654380301}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -177,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefabs: {fileID: 1834948973754597914, guid: f0a31e53f37b85b43af892d0147e19be, type: 3}
+  grenadePrefabs: {fileID: 1110431102357207792, guid: bb06d079fc2489448ad468cacb99cfab, type: 3}
   firePoint: {fileID: 6560216503248728050}
   bulletForce: 20
   fireRate: 0.05
@@ -239,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1743784860192284369}
   - component: {fileID: 3188758030449654252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}

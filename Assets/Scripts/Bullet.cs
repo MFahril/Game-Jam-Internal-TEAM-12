@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-	public float lifeTime = 3;
+	public float lifeTime = 3f;
 	private Rigidbody2D rb;
 	public GameObject enemy;
 	

@@ -844,7 +844,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -105.838135, y: 0, z: 0, w: -129.15848}
+  m_margin: {x: -53.00013, y: 0, z: 5.3915977, w: -19.169174}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -872,11 +872,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 55544106}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 854, y: 473}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -191.4625, y: -62.924988}
   m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.15073095, y: 0.00000010001662}
 --- !u!1 &668968275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1177,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 14.444, y: 14.444, z: 14.444}
+  m_LocalScale: {x: 37.168743, y: 37.168743, z: 37.168743}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1619,10 +1619,6 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 3371741039442777602, guid: ed304300aa5df694da74913e42ebe826, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4279771665883341280, guid: ed304300aa5df694da74913e42ebe826, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1666,14 +1662,6 @@ PrefabInstance:
     - target: {fileID: 8440752196110312547, guid: ed304300aa5df694da74913e42ebe826, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8440752196110312547, guid: ed304300aa5df694da74913e42ebe826, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8640141612383176973, guid: ed304300aa5df694da74913e42ebe826, type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
