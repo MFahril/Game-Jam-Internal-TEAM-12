@@ -1,27 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
     public float movementSpeed;
     public GameObject player;
-    private object movement;
-    private float distance;
+    private Rigidbody2D rb;
+    private bool isKnockback = false;
+    private float knockbackTimer = 0f;
+    public float knockbackDuration = 0.2f; // Durasi knockback
 
-    // Start is called before the first frame update
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>(); // Mendapatkan Rigidbody musuh
     }
 
-    // Update is called once per frame
     void Update()
     {
-        distance = Vector2.Distance(this.transform.position, player.transform.position);
-        Vector2 direction = player.transform.position - this.transform.position;
+        if (!isKnockback)
+        {
+            MoveTowardsPlayer();
+        }
+        else
+        {
+            knockbackTimer -= Time.deltaTime;
+            if (knockbackTimer <= 0)
+            {
+                isKnockback = false; // Menghentikan knockback setelah waktunya habis
+            }
+        }
+    }
 
-        transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, movementSpeed * Time.deltaTime);
+    void MoveTowardsPlayer()
+    {
+        // Musuh bergerak menuju pemain
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
+    }
+
+    public void ApplyKnockback(Vector2 knockbackDirection, float knockbackStrength)
+    {
+        isKnockback = true; // Aktifkan mode knockback
+        knockbackTimer = knockbackDuration;
+
+        // Menambahkan gaya knockback pada musuh
+        rb.AddForce(knockbackDirection * knockbackStrength, ForceMode2D.Impulse);
     }
 }

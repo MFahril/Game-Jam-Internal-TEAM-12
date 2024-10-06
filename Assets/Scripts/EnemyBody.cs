@@ -11,6 +11,8 @@ public class EnemyBody : MonoBehaviour
 		if (this.GetComponent<Stats>().health <= 0)
 		{
 			Destroy(this.gameObject);
+			GameManager.Instance.killCounter++;
+			Debug.Log(GameManager.Instance.killCounter);
 		}
 	}
 }
