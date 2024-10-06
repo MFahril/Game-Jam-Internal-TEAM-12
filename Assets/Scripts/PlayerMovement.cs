@@ -5,12 +5,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float dashSpeed = 20f;      // Speed during dash
-    public float dashDuration = 0.2f;  // Duration of the dash
-    public float dashCooldown = 0.2f;    // Cooldown time between dashes
-    private bool isDashing = false;    // Is the player currently dashing?
-    private float dashTimeLeft;        // Time left in the current dash
-    private float dashCooldownTime;    // Time remaining for the dash cooldown
+    public float dashSpeed = 20f;      
+    public float dashDuration = 0.2f;  
+    public float dashCooldown = 1f;    
+    public float recoilForceDecayRate = 5f; // How quickly the recoil force decays
+    private bool isDashing = false;    
+    private float dashTimeLeft;        
+    private float dashCooldownTime;    
+    private Vector2 recoilForce = Vector2.zero; // Stores the recoil force applied to the player
 
     public Rigidbody2D rb;
     public Camera cam;
@@ -49,21 +51,27 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            dashCooldownTime -= Time.deltaTime; // Reduce the cooldown over time
+            dashCooldownTime -= Time.deltaTime;
         }
+
+        // Decay recoil force over time
+        recoilForce = Vector2.Lerp(recoilForce, Vector2.zero, recoilForceDecayRate * Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
+        Vector2 finalMovement = movement * moveSpeed;
+
+        // Add the recoil force to the final movement
         if (isDashing)
         {
             // Dash movement (fast movement)
-            rb.MovePosition(rb.position + movement * dashSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + finalMovement * dashSpeed * Time.fixedDeltaTime);
         }
         else
         {
-            // Regular movement
-            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+            // Regular movement with recoil
+            rb.MovePosition(rb.position + (finalMovement + recoilForce) * Time.fixedDeltaTime);
         }
 
         // Rotate player to face mouse pointer
@@ -76,11 +84,17 @@ public class PlayerMovement : MonoBehaviour
     {
         isDashing = true;
         dashTimeLeft = dashDuration;
-        dashCooldownTime = dashCooldown; // Reset cooldown
+        dashCooldownTime = dashCooldown;
     }
 
     private void EndDash()
     {
         isDashing = false;
+    }
+
+    // This method allows the shooting script to apply recoil to the player
+    public void ApplyRecoil(Vector2 recoil)
+    {
+        recoilForce += recoil;
     }
 }

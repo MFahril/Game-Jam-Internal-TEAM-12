@@ -162,13 +162,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 089ea381c8e0faf45822357982716816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 7
+  dashSpeed: 3
+  dashDuration: 0.2
+  dashCooldown: 1
+  recoilForceDecayRate: 15
   rb: {fileID: 7340123898822376369}
   cam: {fileID: 0}
-  trailRenderer: {fileID: 218559854489371986}
-  dashingVelocity: 14
-  dashingTime: 0.5
-  dashingCooldown: 1
 --- !u!114 &4480850842115272286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,8 +185,9 @@ MonoBehaviour:
   grenadePrefabs: {fileID: 1110431102357207792, guid: bb06d079fc2489448ad468cacb99cfab, type: 3}
   firePoint: {fileID: 6560216503248728050}
   bulletForce: 20
-  grenadeForce: 10
-  fireRate: 0.05
+  grenadeForce: 15
+  fireRate: 0.4
+  recoilStrength: 5
 --- !u!114 &860294808827688449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +310,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 1, g: 0, b: 0, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -334,7 +335,7 @@ TrailRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
