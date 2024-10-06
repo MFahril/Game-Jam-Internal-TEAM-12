@@ -163,5 +163,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   health: 50
-  damage: 10
+  damage: 5
   playerTransform: {fileID: 4279771665883341280, guid: ed304300aa5df694da74913e42ebe826, type: 3}
