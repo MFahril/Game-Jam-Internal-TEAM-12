@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -8,8 +9,8 @@ public class EnemySpawner : MonoBehaviour
 	public TimerUI timerUI;
 	public Transform playerTransform; // Referensi ke pemain
 	public float enemyMoveSpeed = 3f; // Field untuk mengatur kecepatan musuh
-	private int currentWave = 1;
-	private int enemiesPerWave = 1;
+	public int currentWave = 1;
+	public int enemiesPerWave = 1;
 	private float speedIncreaseInterval = 30f; // Interval 30 detik
 	private float maxSpeed = 5f; // Kecepatan maksimum
 	private float nextSpeedIncreaseTime = 30f; // Waktu saat kecepatan bertambah
@@ -96,19 +97,23 @@ public class EnemyData : MonoBehaviour
 	}
 
 	void MoveTowardsPlayer()
-	{
-		if (playerTransform != null)
-		{
-			Vector3 direction = (playerTransform.position - transform.position).normalized;
+{
+    if (playerTransform != null)
+    {
+        Vector3 direction = (playerTransform.position - transform.position).normalized;
 
-			// Hanya bergerak jika jarak ke pemain lebih besar dari threshold
-			float distance = Vector3.Distance(transform.position, playerTransform.position);
-			if (distance > 0.5f) // Ambang batas untuk menghindari musuh 'melompat' ke pemain
-			{
-				transform.position += direction * moveSpeed * Time.deltaTime;
-			}
-		}
-	}
+        // Hanya bergerak jika jarak ke pemain lebih besar dari threshold
+        float distance = Vector3.Distance(transform.position, playerTransform.position);
+        if (distance > 0.5f) // Ambang batas untuk menghindari musuh 'melompat' ke pemain
+        {
+            transform.position += direction * moveSpeed * Time.deltaTime;
+        }
+
+        // Buat musuh selalu menghadap ke pemain
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Menghitung sudut rotasi
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle)); // Set rotasi z untuk 2D
+    }
+}
 
 	public void ApplyKnockback(Vector2 knockbackDirection, float knockbackStrength)
 	{
