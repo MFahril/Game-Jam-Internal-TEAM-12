@@ -1,18 +1,23 @@
-using System.Collections;
+using System.Collections; // Diperlukan untuk IEnumerator
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject bossPrefab; // Prefab untuk mini boss
     public Transform[] spawnPoints;
     public TimerUI timerUI;
-    public Transform playerTransform; // Referensi ke pemain
-    public float enemyMoveSpeed = 3f; // Field untuk mengatur kecepatan musuh
+    public Transform playerTransform;
+    public float enemyMoveSpeed = 3f;
     private int currentWave = 1;
     private int enemiesPerWave = 1;
-    private float speedIncreaseInterval = 30f; // Interval 30 detik
-    private float maxSpeed = 5f; // Kecepatan maksimum
-    private float nextSpeedIncreaseTime = 30f; // Waktu saat kecepatan bertambah
+    private float speedIncreaseInterval = 30f;
+    private float maxSpeed = 5f;
+    private float nextSpeedIncreaseTime = 30f;
+
+    public float bossSpawnInterval = 60f; // Waktu untuk spawn boss dalam detik
+    public bool bossAlive = false; // Status untuk memeriksa apakah boss masih hidup
+    private float nextBossSpawnTime = 60f; // Waktu untuk spawn boss
 
     void Start()
     {
@@ -23,60 +28,60 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            int enemiesAlive = FindObjectsOfType<EnemyData>().Length; // Menghitung musuh yang ada
-
-            // Spawn musuh jika jumlah musuh kurang dari jumlah yang ditentukan untuk wave
-            if (enemiesAlive < enemiesPerWave)
+            if (!bossAlive) // Cek apakah boss masih hidup
             {
-                int spawnIndex = Random.Range(0, spawnPoints.Length);
-                GameObject enemyInstance = Instantiate(enemyPrefab, spawnPoints[spawnIndex].position, Quaternion.identity);
+                int enemiesAlive = FindObjectsOfType<EnemyData>().Length;
 
-                // Menambahkan komponen EnemyData dan mengatur referensi pemain serta kecepatan musuh
-                EnemyData enemyData = enemyInstance.AddComponent<EnemyData>();
-                enemyData.playerTransform = playerTransform;
-                enemyData.moveSpeed = enemyMoveSpeed; // Mengatur kecepatan musuh
+                if (enemiesAlive < enemiesPerWave)
+                {
+                    int spawnIndex = Random.Range(0, spawnPoints.Length);
+                    GameObject enemyInstance = Instantiate(enemyPrefab, spawnPoints[spawnIndex].position, Quaternion.identity);
 
-                enemiesAlive++;
+                    EnemyData enemyData = enemyInstance.GetComponent<EnemyData>();
+                    enemyData.playerTransform = playerTransform;
+                    enemyData.moveSpeed = enemyMoveSpeed;
+
+                    enemiesAlive++;
+                }
+
+                float elapsedTime = timerUI.ElapsedTime;
+                if (elapsedTime >= nextSpeedIncreaseTime && enemyMoveSpeed < maxSpeed)
+                {
+                    enemyMoveSpeed += 1f;
+                    nextSpeedIncreaseTime += speedIncreaseInterval;
+                    enemyMoveSpeed = Mathf.Clamp(enemyMoveSpeed, 0, maxSpeed);
+                }
+
+                if (elapsedTime >= currentWave * 10)
+                {
+                    currentWave++;
+                    enemiesPerWave = currentWave;
+                }
+            }
+            else
+            {
+                yield return null; // Tunggu sampai boss mati
             }
 
-            // Periksa apakah sudah waktunya untuk menambah kecepatan
-            float elapsedTime = timerUI.ElapsedTime;
-            if (elapsedTime >= nextSpeedIncreaseTime && enemyMoveSpeed < maxSpeed)
+            // Spawn boss setiap bossSpawnInterval menit
+            if (timerUI.ElapsedTime >= nextBossSpawnTime)
             {
-                enemyMoveSpeed += 1f; // Tambah kecepatan 1
-                nextSpeedIncreaseTime += speedIncreaseInterval; // Set waktu berikutnya
-                enemyMoveSpeed = Mathf.Clamp(enemyMoveSpeed, 0, maxSpeed); // Jangan melebihi kecepatan maksimum
-            }
-
-            // Periksa apakah waktu sudah mencapai gelombang baru
-            if (elapsedTime >= currentWave * 10)
-            {
-                currentWave++;
-                enemiesPerWave = currentWave;
+                SpawnBoss();
+                nextBossSpawnTime += bossSpawnInterval; // Atur waktu spawn boss berikutnya
             }
 
             yield return new WaitForSeconds(1f);
         }
     }
-}
 
-public class EnemyData : MonoBehaviour
-{
-    public float moveSpeed; // Kecepatan musuh
-    public Transform playerTransform;
-
-    void Update()
+    void SpawnBoss()
     {
-        if (playerTransform != null)
+        if (FindObjectOfType<BossData>() == null)
         {
-            Vector3 direction = (playerTransform.position - transform.position).normalized;
-
-            // Hanya bergerak jika jarak ke pemain lebih besar dari threshold
-            float distance = Vector3.Distance(transform.position, playerTransform.position);
-            if (distance > 0.5f) // Ambang batas untuk menghindari musuh 'melompat' ke pemain
-            {
-                transform.position += direction * moveSpeed * Time.deltaTime;
-            }
+            int spawnIndex = Random.Range(0, spawnPoints.Length);
+            GameObject bossInstance = Instantiate(bossPrefab, spawnPoints[spawnIndex].position, Quaternion.identity);
+            bossInstance.GetComponent<BossData>().playerTransform = playerTransform; // Set playerTransform untuk boss
+            bossAlive = true; // Set status bossAlive
         }
     }
 }
