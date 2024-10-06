@@ -25,6 +25,7 @@ public class Stats : MonoBehaviour
         }
     }
 
+<<<<<<< Updated upstream
     // Metode untuk penyembuhan jika diperlukan
     public void Heal(int amount)
     {
@@ -35,12 +36,20 @@ public class Stats : MonoBehaviour
         {
             health = maxHealth;
         }
+=======
+        // Memperbarui UI health bar
+        FindObjectOfType<PlayerHealthBar>().UpdateHealthBar();
+>>>>>>> Stashed changes
     }
 
     // Metode yang akan dipanggil ketika health mencapai 0
     void Die()
     {
+<<<<<<< Updated upstream
         // Logika kematian, seperti menghancurkan objek atau memicu animasi kematian
+=======
+        // Logika kematian
+>>>>>>> Stashed changes
         Destroy(gameObject);
     }
 }
