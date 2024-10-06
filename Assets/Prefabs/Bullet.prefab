@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 3
-  enemy: {fileID: 7830997215040620900, guid: 4a5c8b537b4e561478547ce83223460b, type: 3}
+  knockbackStrength: 10
 --- !u!114 &2277245923849942008
 MonoBehaviour:
   m_ObjectHideFlags: 0

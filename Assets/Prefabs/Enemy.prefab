@@ -179,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 5
   player: {fileID: 8440752196110312547, guid: ed304300aa5df694da74913e42ebe826, type: 3}
+  knockbackDuration: 0.2
 --- !u!114 &8462765948716361592
 MonoBehaviour:
   m_ObjectHideFlags: 0
