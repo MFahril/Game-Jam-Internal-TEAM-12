@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
             if (enemyData != null)
             {
                 Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
-                enemyData.ApplyKnockback(knockbackDirection, knockbackStrength);
+                // enemyData.ApplyKnockback(knockbackDirection, knockbackStrength);
             }
 
             Destroy(this.gameObject); // Menghancurkan peluru setelah mengenai musuh
