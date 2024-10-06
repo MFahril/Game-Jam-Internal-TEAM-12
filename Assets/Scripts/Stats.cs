@@ -2,29 +2,27 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    public int maxHealth = 20;  // Kesehatan maksimum
-    public int health;          // Kesehatan saat ini
-    public int damage = 1;      // Besar damage yang diberikan oleh entitas ini
+    public int maxHealth = 100;  // Kesehatan maksimal
+    public int health;            // Kesehatan saat ini
+    public int damage = 1;        // Damage yang diberikan oleh musuh atau pemain
 
     void Start()
     {
-        // Pastikan health saat mulai adalah maksimum
-        health = maxHealth;
+        health = maxHealth; // Atur kesehatan awal menjadi maksimal
     }
 
-    // Metode untuk menerima damage
     public void TakeDamage(int amount)
     {
-        health -= amount;
+        health -= amount; // Kurangi kesehatan
+        health = Mathf.Max(health, 0); // Pastikan kesehatan tidak negatif
 
-        // Pastikan health tidak kurang dari 0
         if (health <= 0)
         {
-            health = 0; // Untuk mencegah nilai health negatif
-            Die();      // Panggil metode kematian
+            Die(); // Panggil metode mati jika kesehatan mencapai 0
         }
     }
 
+<<<<<<< Updated upstream
     // Metode untuk penyembuhan jika diperlukan
     public void Heal(int amount)
     {
@@ -42,5 +40,10 @@ public class Stats : MonoBehaviour
     {
         // Logika kematian, seperti menghancurkan objek atau memicu animasi kematian
         Destroy(gameObject);
+=======
+    void Die()
+    {
+        Destroy(gameObject); // Hancurkan objek ini ketika mati
+>>>>>>> Stashed changes
     }
 }
