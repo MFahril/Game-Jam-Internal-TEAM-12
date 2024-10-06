@@ -1,41 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	public static GameManager Instance { get; private set; }
-	public List<EnemyBody> enemyList;
-	public int killCounter;
-	public int spawnAmount;
-	private void Awake() 
-	{ 
-		// If there is an instance, and it's not me, delete myself.
-		
-		if (Instance != null && Instance != this) 
-		{ 
-			Destroy(this); 
-		} 
-		else 
-		{ 
-			Instance = this; 
-		} 
-	}
-	// void Update()
-	// {
-	// 	foreach (EnemyBody enemy in enemyList)
-	// 	{
-	// 		if(enemy.isDead == true)
-	// 		{
-	// 			enemyList.Remove(enemy);
-	// 		}
-			
-	// 		if(enemyList.Count == 0)
-	// 		{
-	// 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-	// 		}
-	// 	}
-	// }
+    // Singleton instance
+    public static GameManager Instance { get; private set; }
+
+    // Counter untuk jumlah musuh yang dibunuh
+    public int killCounter = 0;
+
+    void Awake()
+    {
+        // Periksa jika instance sudah ada, jika ada, hancurkan duplikatnya
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Agar GameManager tidak dihancurkan ketika scene berubah
+        }
+    }
 }
