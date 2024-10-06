@@ -1,29 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     public float lifeTime = 3f;
     private Rigidbody2D rb;
-    public int damage = 1; // Damage untuk bullet
+    public float knockbackStrength = 5f; // Kekuatan knockback
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, lifeTime); // Hancurkan bullet setelah waktu tertentu
+        Destroy(gameObject, lifeTime); // Menghancurkan peluru setelah beberapa detik
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
-            Stats enemyStats = other.GetComponent<Stats>();
-            if (enemyStats != null) // Memeriksa apakah enemy memiliki komponen Stats
+            // Mengurangi health musuh
+            other.GetComponent<Stats>().health -= this.GetComponent<Stats>().damage;
+
+            // Menambahkan efek knockback ke musuh
+            EnemyData enemyData = other.GetComponent<EnemyData>();
+            if (enemyData != null)
             {
-                enemyStats.TakeDamage(damage); // Gunakan damage yang telah ditentukan
+                Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
+                enemyData.ApplyKnockback(knockbackDirection, knockbackStrength);
             }
-            Destroy(gameObject); // Hancurkan bullet setelah tabrakan
+
+            Destroy(this.gameObject); // Menghancurkan peluru setelah mengenai musuh
         }
     }
 }
